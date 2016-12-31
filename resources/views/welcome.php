@@ -8,7 +8,7 @@
 
         <li v-for="task in tasks" v-if="task.completed" v-text="task.description"></li>
 
-        <h2>Incomplete</h2>
+        <h2>Complete</h2>
         <li v-for="task in incompleteTasks" v-text="task.description"></li>
     </div>
 
