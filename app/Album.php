@@ -23,7 +23,7 @@ class Album extends Model
     }
 
     public static function canDestroy($user_id){
-        if(Auth::id() == $user_id || Auth::user()->isAdmin == 1){
+        if(true){ //Auth::id() == $user_id || Auth::user()->isAdmin == 1
             return true;
         }else{
             return false;
@@ -36,7 +36,9 @@ class Album extends Model
      * @return bool
      */
     public static function deleteAlbumPhotos($albuns){
+
         foreach ($albuns as $album) {
+
             $photos = Photo::where('album_id', $album->id)->get();
             foreach ($photos as $photo) {
                 Storage::delete($album->user_id . '/' . $photo->name);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Album;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AlbumController extends Controller
 {
@@ -32,7 +33,7 @@ class AlbumController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * vars name, album_id
+     * vars name, user_id
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -86,7 +87,31 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $album = Album::find($id);
+
+        /*Verifica se user pode modificar album*/
+        /*if(Auth::id() != $album->user_id || Auth::user()->isAdmin != 1){
+            return response()->json([
+                'status' => 'error',
+                'msg' => "Sem permissão para alterar album!"
+            ]);
+        }*/
+
+        $album->fill($data);
+
+        if($album->save() != null){
+            return response()->json([
+                'status' => 'success',
+                'msg' => "Album atualizado com sucesso!"
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'error',
+                'msg' => "Um erro ocorreu ao salvar!"
+            ]);
+        }
+
     }
 
     /**

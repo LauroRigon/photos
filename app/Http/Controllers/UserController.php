@@ -38,18 +38,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->input();
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6',
-        ]);
 
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password'])
-        ]);
-
+        var_dump($data);
+        $data["password"] = bcrypt($data['password']);
+        return User::create($data);
     }
 /*
     protected function validator(array $data)

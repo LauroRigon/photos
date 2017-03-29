@@ -13,6 +13,7 @@
 
 
 Route::auth();
+Auth::routes();
 
 Route::get('/', 'HomeController@index');
 
@@ -21,25 +22,23 @@ Route::group(['prefix' => 'admin'], function () {
     /*
      * Photos
      * */
-    //create photo
     Route::get('photo/create', 'PhotoController@create');
     Route::post('photo/create', 'PhotoController@store');
 
-    //delete photo
     Route::delete('photo/delete/{photoID}', 'PhotoController@destroy');
 
-    //update photo
     Route::put('photo/update/{photoID}', 'PhotoController@update');
 
     /*
      * Albums
      * */
     Route::get('album/create', 'AlbumController@create');
-
     Route::post('album/create', 'AlbumController@store');
 
     Route::get('album/delete', 'AlbumController@delete');
     Route::delete('album/delete/{albumID}', 'AlbumController@destroy');
+
+    Route::put('album/edit/{albumId}','AlbumController@update');
 
     /*
      * Users
