@@ -45,11 +45,11 @@ class PhotoController extends Controller
     {
         $data = $request->all();
         //var_dump(Album::find($data['album_id'])->user_id);
-
-        if(Album::find($data['album_id'])->user_id != $data['user_id'] ){       // verifica se o album é do usuário
+        $album = Album::find($data['album_id']);
+        if($album == null || $album->user_id != $data['user_id']){       // verifica se o album é do usuário e se ele existe
             return response()->json([
                 'status' => 'error',
-                'msg' => "Sem permissão para esta ação!"
+                'msg' => "Esse album não existe!"
             ]);
         }
 
@@ -59,6 +59,7 @@ class PhotoController extends Controller
 
             foreach ($files as $file) {
                 $fileName = $file->getClientOriginalName();
+
                 $store = Storage::put("{$data['user_id']}/" . $fileName, file_get_contents($file));
                 $photo = Photo::where('img', $fileName)->where('user_id', $data['user_id'])->first();
 

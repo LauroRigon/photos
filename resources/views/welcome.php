@@ -2,41 +2,54 @@
 <head>
     <title>Bla</title>
 </head>
-
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.0/css/bulma.css">
 <body>
-    <div id="root">
+<div id="page-menu" class="container">
+      <menuitens>
+        <itemlist name="Dash">
+            <item>
+                
+            </item> 
+        </itemlist>    
+      </menuitens>
 
-        <li v-for="task in tasks" v-if="task.completed" v-text="task.description"></li>
-
-        <h2>Complete</h2>
-        <li v-for="task in incompleteTasks" v-text="task.description"></li>
-    </div>
+</div>
+    
 
 
 
-    <script src="https://unpkg.com/vue@2.1.8/dist/vue.js"></script>
+
+<script src="https://unpkg.com/vue@2.1.8/dist/vue.js"></script>
 
 <script>
 
-    var app = new Vue({
-        el: '#root',
-        data:{
-            tasks: [
-                {description: "Something", completed: true},
-                {description: "play lol", completed: false},
-                {description: "play witcher", completed: true}
-            ]
-        },
-        computed:{
-            incompleteTasks(){
-                return this.tasks.filter(task => !  task.completed);
-            }
-        },
-        methods:{
+Vue.component('menuitens', {
+    template:`
+            <aside class="menu">
+                <ul v-for="itemlist in menuitens"></ul>
+            </aside>
+    `,
+    mounted(){
+        this.menuitens = this.$children;
+    },
 
-        }
-    });
+    data() {
+        return { menuitens: [] };
+    },
+});
 
+Vue.component('itemlist', {
+    template:`
+            <li><a :class="{ 'is-active': this.isActive }">{ this.name }</a></li>
+    `,
+    props: {
+        name: {required: true}
+    }
+});
+
+new Vue({
+    el: '#page-menu'
+});
 
 </script>
 </body>
